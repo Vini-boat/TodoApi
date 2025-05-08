@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from app.schemas.task import TaskResponse, TaskCreate, TaskUpdate
+from app.dtos.task import TaskResponse, TaskCreate, TaskUpdate
 
 class ITasksRepository(ABC):
     @abstractmethod

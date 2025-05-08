@@ -12,6 +12,6 @@ class TaskCreate(BaseModel):
     description: Optional[str] = None
 
 class TaskUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    completed: Optional[bool] = None
+    title: str
+    description: str
+    completed: bool

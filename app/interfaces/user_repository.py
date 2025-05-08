@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from app.schemas.user import UserResponse, UserCreate, UserUpdate
+from app.dtos.user import UserResponse, UserCreate, UserUpdate
 
 class IUserRepository(ABC):
     @abstractmethod
