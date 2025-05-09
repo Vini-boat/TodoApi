@@ -20,5 +20,5 @@ pip install -r ./requirements.txt
 Executar o servidor
 
 ```shell
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8080
+uvicorn app.main:app --reload --port 8080
 ```
