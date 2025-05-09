@@ -1,11 +1,12 @@
 from app.dtos.user import UserResponse
-from app.interfaces.user_repository import IUserRepository
 from fastapi import Depends
 
 from app.dtos.user import UserCreate, UserUpdate
 
+from app.repository.sqlite_user_repository import SQLiteUserRepository
+
 class UserService:
-    def __init__(self, user_repository: IUserRepository = Depends()):
+    def __init__(self, user_repository: SQLiteUserRepository = Depends(SQLiteUserRepository)):
         self.user_repository = user_repository
 
     def get_user_by_id(self, user_id: int) -> UserResponse:

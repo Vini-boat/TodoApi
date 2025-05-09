@@ -1,9 +1,5 @@
-from fastapi import Depends
-from app.interfaces.task_repository import ITasksRepository
-
-
 class TaskService:
-    def __init__(self, task_repository: ITasksRepository = Depends()):
+    def __init__(self, task_repository):
         self.task_repository = task_repository
 
     def create_task(self, task_data):
