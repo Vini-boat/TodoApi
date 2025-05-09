@@ -1,6 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from app.services.task_service import TaskService
 from app.dtos.task import TaskResponse, TaskCreate, TaskUpdate
+from typing import Optional, List
 
 router = APIRouter()
 
@@ -21,6 +22,14 @@ async def get_task_by_id(
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     return task
+
+@router.get("/tasks", response_model=Optional[List[TaskResponse]])
+async def get_tasks_assigned_to_user(
+    user_id: int = Query(..., alias="assignedTo"),
+    service: TaskService = Depends(TaskService)
+    ):
+    tasks = service.get_tasks_assigned_to_user(user_id)
+    return tasks
 
 @router.put("/tasks/{task_id}", response_model=TaskResponse)
 async def update_task(

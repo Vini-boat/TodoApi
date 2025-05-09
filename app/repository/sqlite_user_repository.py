@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.models.user import User
 
-class SQLiteUserRepository():
+class SQLiteUserRepository:
     def __init__(self, db_session: Session = Depends(get_db_session)):
         self.session: Session = db_session
     

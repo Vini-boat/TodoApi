@@ -11,6 +11,7 @@ class Task(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str] = mapped_column(String(100))
     description: Mapped[Optional[str]] = mapped_column(String(255))
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    completed: Mapped[bool] = mapped_column(default=False)
+    assigned_to_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 
-    user: Mapped["User"] = relationship(back_populates="tasks")
+    assigned_to: Mapped[Optional["User"]] = relationship(back_populates="tasks")
