@@ -2,7 +2,11 @@ from typing import Optional
 from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from . import Base
-from .user import User
+
+# WHY: isso é necessário para evitar o erro de importação circular
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from . import User
 
 
 class Task(Base):
