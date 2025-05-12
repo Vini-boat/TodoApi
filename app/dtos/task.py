@@ -8,8 +8,9 @@ class TaskResponse(BaseModel):
     completed: bool = False
     assigned_to_user_id: Optional[int] = None
 
-    class Config:
-        from_attributes = True
+    model_config = {
+        "from_attributes": True,
+    }
 
 class TaskCreate(BaseModel):
     title: str
