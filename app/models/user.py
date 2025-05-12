@@ -2,6 +2,11 @@ from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from . import Base
 
+# WHY: isso é necessário para evitar o erro de importação circular
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from . import Task
+
 from typing import Optional
 
 class User(Base):
