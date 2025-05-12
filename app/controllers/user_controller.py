@@ -2,13 +2,14 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.services.user_service import UserService
 
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
+from app.infraestructure.auth import oauth2_scheme
 
 router = APIRouter()
 
 @router.post("/users", response_model=UserResponse)
 async def create_new_user(
     user: UserCreate, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
     ):
     created_user = service.create_user(user)
     return created_user
