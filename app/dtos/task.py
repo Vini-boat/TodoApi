@@ -19,5 +19,5 @@ class TaskCreate(BaseModel):
 class TaskUpdate(BaseModel):
     title: str
     description: Optional[str] = None
-    completed: bool
+    completed: bool = False
     assigned_to_user_id: Optional[int] = None
