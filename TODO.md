@@ -1,0 +1,24 @@
+- [ ] Autenticação
+  - [ ] Token JWT
+  - [ ] Login
+  - [ ] Logout
+- [ ] Segurança
+  - [ ] Hashing de senhas
+  - [ ] OAuth2 scopes (admin, user, convidado)
+- [ ] Tests
+  - [ ] controllers (fastapi TestClient)
+  - [ ] services 
+  - [ ] Repository
+- [ ] Escolher os 2 primeiros requisitos complementares
+- [ ] Architecture Decision Records
+  - [ ] python
+    - colaboração de todos
+  - [ ] fastapi
+    - autenticação
+    - swagger
+  - [ ] sqlite
+    - nativo do python
+  - [ ] pytest
+    - trabalho já feito antes
+  - [ ] MVC
+    - simplicidade do escopo
