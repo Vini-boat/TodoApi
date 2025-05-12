@@ -20,4 +20,4 @@ class UserUpdate(BaseModel):
 class UserPatch(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
-    
+    deleted: Optional[bool] = None

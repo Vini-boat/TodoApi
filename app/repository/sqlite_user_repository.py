@@ -39,8 +39,9 @@ class SQLiteUserRepository:
 
     def delete_user(self, user_id: int) -> Optional[UserResponse]:
         stmt = (
-            delete(User)
+            update(User)
             .where(User.id == user_id)
+            .values(deleted=True)
             .returning(User.id, User.username, User.email)
         )
         deleted_user = self.session.execute(stmt).first()

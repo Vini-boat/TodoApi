@@ -11,6 +11,7 @@ class User(Base):
     username: Mapped[str] = mapped_column(String(50))
     email: Mapped[str] = mapped_column(String(100), unique=True)
     password: Mapped[str] = mapped_column(String(100))
+    deleted: Mapped[bool] = mapped_column(default=False)
 
     tasks: Mapped[Optional["Task"]] = relationship(back_populates="assigned_to", cascade="all, delete-orphan")
 

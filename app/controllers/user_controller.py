@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from app.services.user_service import UserService
 
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
+from app.exceptions.http import UserNotFound
 
 router = APIRouter()
 
@@ -20,7 +21,7 @@ async def get_user_by_id(
     ):
     user = service.get_user_by_id(user_id)
     if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise UserNotFound
     return user
 
 @router.put("/users/{user_id}", response_model=UserResponse)
@@ -31,7 +32,7 @@ async def update_user(
     ):
     updated_user = service.update_user(user_id, user)
     if not updated_user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise UserNotFound
     return updated_user
 
 @router.delete("/users/{user_id}", response_model=UserResponse)
@@ -41,5 +42,5 @@ async def delete_user(
     ):
     deleted_user = service.delete_user(user_id)
     if not deleted_user:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise UserNotFound
     return deleted_user
