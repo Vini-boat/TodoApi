@@ -1,5 +1,5 @@
 from fastapi import Depends
-from sqlalchemy import insert, update, delete
+from sqlalchemy import insert, update
 from typing import Optional
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
 from app.infraestructure.sqlite import get_db_session
@@ -25,11 +25,21 @@ class SQLiteUserRepository:
     def get_user(self, user_id: int) -> Optional[UserResponse]:
         user = self.session.query(User).filter(User.id == user_id).first()
         return UserResponse.model_validate(user) if user else None
+    
+    def get_active_user(self, user_id: int) -> Optional[UserResponse]:
+        user = (
+            self.session.query(User)
+            .filter(User.id == user_id)
+            .filter(not User.deleted)
+            .first()
+        )
+        return UserResponse.model_validate(user) if user else None
 
     def update_user(self, user_id: int, user_data: UserUpdate) -> Optional[UserResponse]:
         stmt = (
             update(User)
             .where(User.id == user_id)
+            .where(not User.deleted)
             .values(user_data.model_dump())
             .returning(User.id, User.username, User.email)
         )
@@ -41,6 +51,7 @@ class SQLiteUserRepository:
         stmt = (
             update(User)
             .where(User.id == user_id)
+            .where(not User.deleted)
             .values(deleted=True)
             .returning(User.id, User.username, User.email)
         )
