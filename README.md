@@ -4,6 +4,14 @@ Referente ao trabalho de Grau B da disciplina de Engenharia de Software: Arquite
 
 ## Para executar:
 
+Clonar o repositório
+
+```shell
+git clone https://github.com/Vini-boat/TodoApi.git
+cd TodoApi/
+```
+
+
 Criar e ativar o venv
 
 ```shell
