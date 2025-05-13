@@ -2,6 +2,9 @@
 
 Referente ao trabalho de Grau B da disciplina de Engenharia de Software: Arquitetura e Padrões
 
+![tests](https://github.com/Vini-boat/TodoApi/actions/workflows/pytest.yml/badge.svg)
+
+
 ## Para executar:
 
 Clonar o repositório
