@@ -1,13 +1,21 @@
 import pytest
 from app.repository.sqlite_user_repository import SQLiteUserRepository
 from app.dtos.user import UserCreate
-from app.infraestructure.mockdb import get_db_session, create_all_tables
+from app.infraestructure.sqlite import get_db_session
+from app.infraestructure.mockdb import get_db_session as get_mock_db_session, create_all_tables
+from app.main import app
 
+
+@pytest.fixture(scope="session", autouse=True)
+def override_get_db():
+    app.dependency_overrides[get_db_session] = get_mock_db_session
+    create_all_tables()
+    yield
+    app.dependency_overrides.clear()
 
 @pytest.fixture
 def repository() -> SQLiteUserRepository:
-    create_all_tables()
-    return SQLiteUserRepository(next(get_db_session()))
+    return SQLiteUserRepository(next(get_mock_db_session()))
 
 
 @pytest.mark.parametrize("username, email, password, should_create", [
