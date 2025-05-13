@@ -3,7 +3,7 @@
   - [ ] Login
   - [ ] Logout
 - [ ] Segurança
-  - [ ] Hashing de senhas
+  - [ ] Hashing de senhas (fazendo no branch pass_hashing)
   - [ ] OAuth2 scopes (admin, user, convidado)
 - [ ] Tests
   - [ ] controllers (fastapi TestClient)
