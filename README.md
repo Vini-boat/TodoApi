@@ -17,6 +17,12 @@ Instalar dependências
 pip install -r ./requirements.txt
 ```
 
+Configurar o `.env` ou usar o `.env.example`
+
+```shell
+mv .env.example .env
+```
+
 Executar o servidor
 
 ```shell
