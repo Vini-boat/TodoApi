@@ -1,7 +1,7 @@
 import pytest
 from app.repository.sqlite_user_repository import SQLiteUserRepository
 from app.dtos.user import UserCreate
-from app.infraestructure.mock import get_db_session, create_all_tables
+from app.infraestructure.mockdb import get_db_session, create_all_tables
 
 
 @pytest.fixture
