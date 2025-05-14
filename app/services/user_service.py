@@ -16,6 +16,12 @@ class UserService:
     def get_user_by_id(self, user_id: int) -> Optional[UserResponse]:
         return self.user_repository.get_user(user_id)
 
+    def authenticate_user(self, username: str, password: str) -> Optional[UserResponse]:
+        user = self.user_repository.get_user_by_username(username)
+        if user and user.verify_password(password):
+            return user
+        return None
+
     def get_active_user_by_id(self, user_id: int) -> Optional[UserResponse]:
         return self.user_repository.get_active_user(user_id)
     

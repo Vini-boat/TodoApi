@@ -22,3 +22,7 @@ class UserPatch(BaseModel):
     username: Optional[str] = None
     email: Optional[EmailStr] = None
     deleted: Optional[bool] = None
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
