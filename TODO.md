@@ -1,0 +1,37 @@
+- [ ] Autenticação
+  - [ ] Token JWT
+  - [ ] Login
+  - [ ] Logout
+- [ ] Segurança
+  - [X] Hashing de senhas
+  - [ ] OAuth2 scopes (admin, user, convidado)
+- [ ] Tests
+  - [X] workflow de testes
+  - [ ] calcular a cobertura dos testes (coverage, pytest-cov)     
+  - [ ] controllers (fastapi TestClient)
+  - [ ] services 
+  - [ ] Repository
+- [ ] Logs
+- [ ] Tratamento adequado de erros 
+- [ ] Escolher os 2 primeiros requisitos complementares
+
+- [ ] Documentação
+  - [ ] Visão geral
+  - [ ] Architecture Decision Records
+    - [ ] python
+      - colaboração de todos
+    - [ ] fastapi
+      - autenticação
+      - swagger
+    - [ ] sqlite
+      - nativo do python
+    - [ ] pytest
+      - trabalho já feito antes
+    - [ ] MVC
+      - simplicidade do escopo
+  - [ ] Modelagem de dados
+  - [ ] Fluxo de requisições
+  - [ ] Configuração e deploy
+  - [ ] Testes automatizados
+    - [ ] Estratégia utilizada
+    - [ ] Métricas de cobertura

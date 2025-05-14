@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from app.models import Base
-from app.config import DATABASE_URL
+
+DATABASE_URL = "sqlite:///:memory:"
 
 engine = create_engine(DATABASE_URL, echo=True)
 
