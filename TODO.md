@@ -3,9 +3,11 @@
   - [ ] Login
   - [ ] Logout
 - [ ] Segurança
-  - [ ] Hashing de senhas (fazendo no branch pass_hashing)
+  - [X] Hashing de senhas
   - [ ] OAuth2 scopes (admin, user, convidado)
-- [ ] Testes
+- [ ] Tests
+  - [X] workflow de testes
+  - [ ] calcular a cobertura dos testes (coverage, pytest-cov)     
   - [ ] controllers (fastapi TestClient)
   - [ ] services 
   - [ ] Repository
