@@ -4,7 +4,7 @@ from app.models import Base
 
 DATABASE_URL = "sqlite:///:memory:"
 
-engine = create_engine(DATABASE_URL, echo=True)
+engine = create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread": False})
 
 def create_all_tables():
     Base.metadata.create_all(engine)

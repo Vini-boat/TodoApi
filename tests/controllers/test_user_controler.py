@@ -1,7 +1,12 @@
 from app.main import app
 from fastapi.testclient import TestClient
 import pytest
-    
+
+from app.infraestructure.mockdb import get_db_session as mock_get_db_session
+from app.infraestructure.sqlite import get_db_session 
+
+app.dependency_overrides[get_db_session] = mock_get_db_session
+
 client = TestClient(app)
 
 @pytest.mark.parametrize("username,email,password", [
