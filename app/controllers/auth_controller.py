@@ -11,13 +11,13 @@ async def todo_login(
     form_data: OAuth2PasswordRequestForm = Depends(),
     service: UserService = Depends(UserService)
     ):
-    user = service.get_user_by_email(form_data.username)
+    user = service.get_user_login(form_data.username)
     if not user:
         raise InvalidCredentials
     if not verify_password(form_data.password, user.password):
         raise InvalidCredentials
     
-    return {"access_token": user.username, "token_type": "bearer"}
+    return {"access_token": user.email, "token_type": "bearer"}
 
 @router.post("/auth/logout")
 async def todo_logout():

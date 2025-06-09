@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy import insert, update
 from typing import Optional
-from app.dtos.user import UserResponse, UserCreate, UserUpdate
+from app.dtos.user import UserLogin, UserResponse, UserCreate, UserUpdate
 from app.infraestructure.sqlite import get_db_session
 
 from sqlalchemy.orm import Session
@@ -27,8 +27,12 @@ class SQLiteUserRepository:
         return UserResponse.model_validate(user) if user else None
     
     def get_user_by_email(self, email: str) -> Optional[UserResponse]:
-        user = self.session.query(User).filter(User.email == email).filter(not User.deleted).first()
+        user = self.session.query(User).filter(User.email == email).first()
         return UserResponse.model_validate(user) if user else None
+    
+    def get_user_login(self, email: str) -> Optional[UserResponse]:
+        user = self.session.query(User).filter(User.email == email).first()
+        return UserLogin.model_validate(user) if user else None
 
     def get_active_user(self, user_id: int) -> Optional[UserResponse]:
         user = (

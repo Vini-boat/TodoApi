@@ -8,10 +8,10 @@ from app.exceptions.http import UserNotFound
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="api/v1/auth/login")
 
 def fake_decode_token(token) -> EmailStr:
-    return token["access_token"]
+    return token
 
 async def get_current_user(
-        token: str = Depends(oauth2_scheme),
+        token = Depends(oauth2_scheme),
         service: UserService = Depends(UserService)
     ) -> UserResponse:
     email = fake_decode_token(token)

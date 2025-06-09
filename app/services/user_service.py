@@ -1,4 +1,4 @@
-from app.dtos.user import UserResponse
+from app.dtos.user import UserLogin, UserResponse
 from fastapi import Depends
 from typing import Optional
 from app.dtos.user import UserCreate, UserUpdate
@@ -18,6 +18,9 @@ class UserService:
 
     def get_user_by_email(self, email: str) -> Optional[UserResponse]:
         return self.user_repository.get_user_by_email(email)
+    
+    def get_user_login(self, email: str) -> Optional[UserLogin]:
+        return self.user_repository.get_user_login(email)
 
     def get_active_user_by_id(self, user_id: int) -> Optional[UserResponse]:
         return self.user_repository.get_active_user(user_id)

@@ -24,5 +24,8 @@ class UserPatch(BaseModel):
     deleted: Optional[bool] = None
 
 class UserLogin(BaseModel):
-    username: str
+    email: str
     password: str
+    model_config = {
+        "from_attributes": True,
+    }
