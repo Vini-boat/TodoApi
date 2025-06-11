@@ -9,4 +9,5 @@ UserNotFound = HTTPException(
 InvalidCredentials = HTTPException(
     status_code=401,
     detail="Invalid email or password",
+    headers={"WWW-Authenticate": "Bearer"},
 )
