@@ -12,6 +12,7 @@ def create_all_tables():
 def get_db_session():
     SessionLocal = sessionmaker(engine)
     db = SessionLocal()
+    create_all_tables()
     try:
         yield db
     finally:
