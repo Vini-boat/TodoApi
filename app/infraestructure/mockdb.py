@@ -9,6 +9,9 @@ engine = create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread
 def create_all_tables():
     Base.metadata.create_all(engine)
 
+def drop_all_tables():
+    Base.metadata.drop_all(engine)
+
 def get_db_session():
     SessionLocal = sessionmaker(engine)
     db = SessionLocal()
