@@ -11,17 +11,27 @@
   - [ ] controllers (fastapi TestClient)
   - [ ] services 
   - [ ] Repository
+- [ ] Logs
+- [ ] Tratamento adequado de erros 
 - [ ] Escolher os 2 primeiros requisitos complementares
-- [ ] Architecture Decision Records
-  - [ ] python
-    - colaboração de todos
-    - pacotes e integrações
-  - [ ] fastapi
-    - autenticação
-    - swagger
-  - [ ] sqlite
-    - nativo do python
-  - [ ] pytest
-    - trabalho já feito antes
-  - [ ] MVC
-    - simplicidade do escopo
+
+- [ ] Documentação
+  - [ ] Visão geral
+  - [ ] Architecture Decision Records
+    - [ ] python
+      - colaboração de todos
+    - [ ] fastapi
+      - autenticação
+      - swagger
+    - [ ] sqlite
+      - nativo do python
+    - [ ] pytest
+      - trabalho já feito antes
+    - [ ] MVC
+      - simplicidade do escopo
+  - [ ] Modelagem de dados
+  - [ ] Fluxo de requisições
+  - [ ] Configuração e deploy
+  - [ ] Testes automatizados
+    - [ ] Estratégia utilizada
+    - [ ] Métricas de cobertura
