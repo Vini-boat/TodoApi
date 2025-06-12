@@ -1,10 +1,10 @@
-from sqlalchemy import create_engine
+from sqlalchemy import StaticPool, create_engine
 from sqlalchemy.orm import sessionmaker
 from app.models import Base
 
 DATABASE_URL = "sqlite:///:memory:"
 
-engine = create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread": False})
+engine = create_engine(DATABASE_URL, echo=True, connect_args={"check_same_thread": False}, poolclass=StaticPool)
 
 def create_all_tables():
     Base.metadata.create_all(engine)
@@ -12,7 +12,6 @@ def create_all_tables():
 def get_db_session():
     SessionLocal = sessionmaker(engine)
     db = SessionLocal()
-    create_all_tables()
     try:
         yield db
     finally:
