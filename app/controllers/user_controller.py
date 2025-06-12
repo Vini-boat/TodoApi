@@ -2,14 +2,21 @@ from fastapi import APIRouter, Depends
 from app.services.user_service import UserService
 
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
+from app.infraestructure.auth import get_current_user
 from app.exceptions.http import UserNotFound
 
 router = APIRouter()
 
+@router.get("/users/me", response_model=UserResponse)
+async def get_current_user(
+    current_user: UserResponse = Depends(get_current_user)
+    ):
+    return current_user
+
 @router.post("/users", response_model=UserResponse)
 async def create_new_user(
     user: UserCreate, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
     ):
     created_user = service.create_user(user)
     return created_user
