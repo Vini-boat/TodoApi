@@ -43,3 +43,20 @@ class TaskPatch(BaseModel):
     created_at: Optional[datetime] = None
     due_to: Optional[datetime] = None
     priority: Optional[int] = None
+
+class TaskFilter(BaseModel):
+    title: Optional[str] = None
+    completed: Optional[bool] = None
+    assigned_to_user_id: Optional[int] = None
+
+    created_before: Optional[datetime] = None
+    created_after: Optional[datetime] = None
+
+    completed_before: Optional[datetime] = None
+    completed_after: Optional[datetime] = None
+
+    due_before: Optional[datetime] = None
+    due_after: Optional[datetime] = None
+    
+    min_priority: Optional[int] = None
+    max_priority: Optional[int] = None

@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 from app.services.task_service import TaskService
-from app.dtos.task import TaskPatch, TaskResponse, TaskCreate, TaskUpdate
+from app.dtos.task import TaskPatch, TaskResponse, TaskCreate, TaskUpdate, TaskFilter
 from typing import Optional, List
 
 router = APIRouter()
@@ -21,11 +21,11 @@ async def get_task_by_id(
     return service.get_task_by_id(task_id)
 
 @router.get("/tasks", response_model=Optional[List[TaskResponse]])
-async def get_tasks_assigned_to_user(
-    user_id: int = Query(..., alias="assignedTo"),
+async def get_filtered_tasks(
+    task_filter: TaskFilter = Depends(),
     service: TaskService = Depends(TaskService)
     ):
-    return service.get_tasks_assigned_to_user(user_id)
+    return service.get_filtered_tasks(task_filter)
 
 @router.put("/tasks/{task_id}", response_model=TaskResponse)
 async def update_task(
