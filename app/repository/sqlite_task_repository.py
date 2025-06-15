@@ -13,12 +13,13 @@ from sqlalchemy import insert, update, delete
 class SQLiteTaskRepository:
     def __init__(self, db_session: Session = Depends(get_db_session)):
         self.session: Session = db_session
+        self.task_response_columns = [col for col in User.__table__.c if col.name in TaskResponse.model_fields]
     
     def create_task(self, task_data: TaskCreate) -> TaskResponse:
         stmt = (
             insert(Task)
             .values(task_data.model_dump())
-            .returning(Task.id, Task.title, Task.description, Task.completed, Task.assigned_to_user_id)    
+            .returning(*self.task_response_columns)    
         )
         created_task = self.session.execute(stmt).first()
         self.session.commit()
@@ -36,7 +37,7 @@ class SQLiteTaskRepository:
             update(Task)
             .where(Task.id == task_id)
             .values(task_data.model_dump())
-            .returning(Task.id, Task.title, Task.description, Task.completed, Task.assigned_to_user_id)
+            .returning(*self.task_response_columns)
         )
         updated_task = self.session.execute(stmt).first()
         if not updated_task:
@@ -50,7 +51,7 @@ class SQLiteTaskRepository:
         stmt = (
             delete(Task)
             .where(Task.id == task_id)
-            .returning(Task.id, Task.title, Task.description, Task.completed, Task.assigned_to_user_id)
+            .returning(*self.task_response_columns)
         )
         deleted_task = self.session.execute(stmt).first()
         if not deleted_task:
@@ -66,3 +67,18 @@ class SQLiteTaskRepository:
         
         tasks = self.session.query(Task).filter(Task.assigned_to_user_id == user_id).all()
         return [TaskResponse.model_validate(task) for task in tasks] if tasks else []
+
+    def patch_task(self, task_id: int, task_data: TaskUpdate) -> TaskResponse:
+        stmt = (
+            update(Task)
+            .where(Task.id == task_id)
+            .values(task_data.model_dump(exclude_unset=True))
+            .returning(*self.task_response_columns)
+        )
+        patched_task = self.session.execute(stmt).first()
+        if not patched_task:
+            self.session.rollback()
+            raise TaskNotFound(detail=f"Task with id {task_id} not found")
+        
+        self.session.commit()
+        return TaskResponse.model_validate(patched_task)

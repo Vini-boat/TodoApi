@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 from app.services.task_service import TaskService
-from app.dtos.task import TaskResponse, TaskCreate, TaskUpdate
+from app.dtos.task import TaskPatch, TaskResponse, TaskCreate, TaskUpdate
 from typing import Optional, List
 
 router = APIRouter()
@@ -41,3 +41,11 @@ async def delete_task(
     service: TaskService = Depends(TaskService)
     ):
     return service.delete_task(task_id)
+
+@router.patch("/tasks/{task_id}", response_model=TaskResponse)
+async def patch_task(
+    task_id: int, 
+    task: TaskPatch, 
+    service: TaskService = Depends(TaskService)
+    ):
+    return service.patch_task(task_id, task)

@@ -21,3 +21,6 @@ class TaskService:
     
     def get_tasks_assigned_to_user(self, user_id: int) -> list[TaskResponse]:
         return self.task_repository.get_tasks_assigned_to_user(user_id)
+    
+    def patch_task(self, task_id: int, task_data: TaskUpdate) -> TaskResponse:
+        return self.task_repository.patch_task(task_id, task_data)
