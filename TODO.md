@@ -11,8 +11,13 @@
   - [ ] controllers (fastapi TestClient)
   - [ ] services 
   - [ ] Repository
+  
 - [X] Escolher os 2 primeiros requisitos complementares
-
+- [ ] Logs
+- [X] Tratamento adequado de erros
+  - [X] Criar Exceções de domínio
+  - [X] Criar Exceções do protocolo HTTP
+  - [X] Criar os Handlers de Exceções
 
 A fazer 
 
