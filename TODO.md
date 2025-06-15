@@ -4,7 +4,7 @@
   - [ ] Logout
 - [ ] Segurança
   - [X] Hashing de senhas
-  - [X] OAuth2 scopes (admin, user, convidado)
+  - [ ] OAuth2 scopes (admin, user, convidado)
 - [ ] Tests
   - [X] workflow de testes
   - [ ] calcular a cobertura dos testes (coverage, pytest-cov)     

@@ -3,9 +3,10 @@ from app.services.user_service import UserService
 
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
 from app.infraestructure.auth import get_current_user
-from app.exceptions.http import UserNotFound
+
 
 router = APIRouter()
+
 
 @router.get("/users/me", response_model=UserResponse)
 async def get_current_user(
@@ -26,10 +27,7 @@ async def get_user_by_id(
     user_id: int, 
     service: UserService = Depends(UserService)
     ):
-    user = service.get_user_by_id(user_id)
-    if not user:
-        raise UserNotFound
-    return user
+    return service.get_user_by_id(user_id)
 
 @router.put("/users/{user_id}", response_model=UserResponse)
 async def update_user(
@@ -37,17 +35,11 @@ async def update_user(
     user: UserUpdate, 
     service: UserService = Depends(UserService)
     ):
-    updated_user = service.update_user(user_id, user)
-    if not updated_user:
-        raise UserNotFound
-    return updated_user
+    return service.update_user(user_id, user)
 
 @router.delete("/users/{user_id}", response_model=UserResponse)
 async def delete_user(
     user_id: int, 
     service: UserService = Depends(UserService)
     ):
-    deleted_user = service.delete_user(user_id)
-    if not deleted_user:
-        raise UserNotFound
-    return deleted_user
+    return service.delete_user(user_id)
