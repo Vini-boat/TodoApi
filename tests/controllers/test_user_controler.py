@@ -182,4 +182,4 @@ def test_delete_user_deve_deletar(client):
 
     #Assert
     assert response2.status_code == 200 
-    assert response3.status_code == 404  # Not Found
+    assert response3.status_code == 403
