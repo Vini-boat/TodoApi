@@ -39,7 +39,6 @@ class SQLiteUserRepository:
         stmt = (
             update(User)
             .where(User.id == user_id)
-            .where(not User.deleted)
             .values(user_data.model_dump())
             .returning(User.id, User.username, User.email)
         )
@@ -51,7 +50,6 @@ class SQLiteUserRepository:
         stmt = (
             update(User)
             .where(User.id == user_id)
-            .where(not User.deleted)
             .values(deleted=True)
             .returning(User.id, User.username, User.email)
         )
