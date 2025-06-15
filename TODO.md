@@ -18,6 +18,9 @@
   - [X] Criar Exceções de domínio
   - [X] Criar Exceções do protocolo HTTP
   - [X] Criar os Handlers de Exceções
+- [X] Filtros Avançados
+- [ ] Comentários
+
 
 A fazer 
 
