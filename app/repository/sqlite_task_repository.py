@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import Depends
 from app.infraestructure.sqlite import get_db_session
 from sqlalchemy.orm import Session
@@ -13,7 +14,7 @@ from sqlalchemy import insert, update, delete
 class SQLiteTaskRepository:
     def __init__(self, db_session: Session = Depends(get_db_session)):
         self.session: Session = db_session
-        self.task_response_columns = [col for col in User.__table__.c if col.name in TaskResponse.model_fields]
+        self.task_response_columns = [col for col in Task.__table__.c if col.name in TaskResponse.model_fields]
     
     def create_task(self, task_data: TaskCreate) -> TaskResponse:
         stmt = (
@@ -33,10 +34,13 @@ class SQLiteTaskRepository:
         return TaskResponse.model_validate(task)
 
     def update_task(self, task_id: int, task_data: TaskUpdate) -> TaskResponse:
+        completed_at = datetime.now() if task_data.completed else None
+
         stmt = (
             update(Task)
             .where(Task.id == task_id)
-            .values(task_data.model_dump())
+            .values(task_data.model_dump(exclude_unset=True))
+            .values(completed_at=completed_at)
             .returning(*self.task_response_columns)
         )
         updated_task = self.session.execute(stmt).first()
@@ -69,10 +73,13 @@ class SQLiteTaskRepository:
         return [TaskResponse.model_validate(task) for task in tasks] if tasks else []
 
     def patch_task(self, task_id: int, task_data: TaskUpdate) -> TaskResponse:
+        completed_at = datetime.now() if task_data.completed else None
+
         stmt = (
             update(Task)
             .where(Task.id == task_id)
             .values(task_data.model_dump(exclude_unset=True))
+            .values(completed_at=completed_at)
             .returning(*self.task_response_columns)
         )
         patched_task = self.session.execute(stmt).first()
