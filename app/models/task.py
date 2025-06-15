@@ -3,6 +3,8 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from . import Base
 
+from datetime import datetime
+
 # WHY: isso é necessário para evitar o erro de importação circular
 # https://github.com/sqlalchemy/sqlalchemy/discussions/9223#discussioncomment-4852967
 from typing import TYPE_CHECKING
@@ -20,3 +22,8 @@ class Task(Base):
     assigned_to_user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("users.id"))
 
     assigned_to: Mapped[Optional["User"]] = relationship(back_populates="tasks")
+
+    created_at: Mapped[datetime] = mapped_column(default=datetime.now())
+    completed_at: Mapped[Optional[datetime]] = mapped_column(default=None)
+    due_to: Mapped[Optional[datetime]] = mapped_column(default=None)
+    priority: Mapped[Optional[int]] = mapped_column(default=None)
