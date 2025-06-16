@@ -4,14 +4,22 @@
   - [ ] Logout
 - [ ] Segurança
   - [X] Hashing de senhas
-  - [X] OAuth2 scopes (admin, user, convidado)
+  - [ ] OAuth2 scopes (admin, user, convidado)
 - [ ] Tests
   - [X] workflow de testes
   - [ ] calcular a cobertura dos testes (coverage, pytest-cov)     
   - [ ] controllers (fastapi TestClient)
   - [ ] services 
   - [ ] Repository
+  
 - [X] Escolher os 2 primeiros requisitos complementares
+- [ ] Logs
+- [X] Tratamento adequado de erros
+  - [X] Criar Exceções de domínio
+  - [X] Criar Exceções do protocolo HTTP
+  - [X] Criar os Handlers de Exceções
+- [X] Filtros Avançados
+- [X] Comentários
 
 
 A fazer 
