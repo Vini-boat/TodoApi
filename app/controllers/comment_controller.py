@@ -3,6 +3,7 @@ from fastapi import APIRouter, Depends, Query
 from app.models.user import User
 from app.services.comment_service import CommentService
 from app.dtos.comment import CommentResponse, CommentCreate, CommentUpdate
+from app.controllers.task_controller import router as task_router
 
 from app.infraestructure.auth import get_current_user
 
@@ -17,7 +18,7 @@ async def create_comment(
     return service.create_comment(comment, user.id)
 
 @router.get("/comments", response_model=list[CommentResponse])
-async def get_task_comments(
+async def get_comments_by_task_id(
     task_id: int = Query(..., description="task_id"),
     service: CommentService = Depends(CommentService)
     ):
@@ -46,3 +47,10 @@ async def update_comment(
     user: User = Depends(get_current_user)
     ):
     return service.update_comment(comment_id, comment, user.id)
+
+@task_router.get("/tasks/{task_id}/comments", response_model=list[CommentResponse])
+async def get_task_comments(
+    task_id: int,
+    service: CommentService = Depends(CommentService)
+    ):
+    return service.get_task_comments(task_id)
