@@ -5,6 +5,7 @@ import pytest
     ("Vini", "vinibezerra2004@gmail.com", "00000000")
 ])
 def test_create_user_deve_criar(client, username,email,password):
+    # Act
     response = client.post(
         "/api/v1/users",
         headers={"accept" : "application/json",
@@ -16,6 +17,7 @@ def test_create_user_deve_criar(client, username,email,password):
             "password": password
         },
     )
+    # Assert
     assert response.status_code == 200
 
 
@@ -35,6 +37,7 @@ def test_create_user_nao_deve_criar(client, username,email,password):
             "password": password
         },
     )
+    # Assert
     assert response.status_code == 422
 
 
@@ -167,7 +170,7 @@ def test_delete_user_deve_deletar(client):
     user_id = response1.json().get("id")
 
     #Act: delete
-    response2 = client.delete(
+    response = client.delete(
         f"/api/v1/users/{user_id}",
         headers={"accept" : "application/json",
                 "Content-Type" : "application/json"},
@@ -181,7 +184,7 @@ def test_delete_user_deve_deletar(client):
     )
 
     #Assert
-    assert response2.status_code == 200
+    assert response.status_code == 200
     assert response3.status_code == 403 # Forbidden
 
 def test_delete_user_nao_deve_deletar(client):
