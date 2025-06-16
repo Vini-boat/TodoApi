@@ -15,7 +15,6 @@ class CommentResponse(BaseModel):
 
 class CommentCreate(BaseModel):
     task_id: int
-    user_id: int
     content: str
 
 class CommentUpdate(BaseModel):

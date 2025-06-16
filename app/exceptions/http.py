@@ -19,3 +19,11 @@ class UserNotActive(HTTPException):
 class TaskNotFound(HTTPException):
     def __init__(self, detail: str = "Task not found"):
         super().__init__(status_code=404, detail=detail)
+
+class CommentNotFound(HTTPException):
+    def __init__(self, detail: str = "Comment not found"):
+        super().__init__(status_code=404, detail=detail)
+
+class PermissionDenied(HTTPException):
+    def __init__(self, detail: str = "Permission denied"):
+        super().__init__(status_code=403, detail=detail)

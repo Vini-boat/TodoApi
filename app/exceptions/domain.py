@@ -13,3 +13,11 @@ class UserNotActive(Exception):
 class TaskNotFound(Exception):
     def __init__(self, detail: str = "Task not found"):
         self.detail = detail
+
+class CommentNotFound(Exception):
+    def __init__(self, detail: str = "Comment not found"):
+        self.detail = detail
+
+class PermissionDenied(Exception):
+    def __init__(self, detail: str = "Permission denied"):
+        self.detail = detail
