@@ -15,6 +15,11 @@ class SQLiteTaskRepository:
         self.session: Session = db_session
     
     def create_task(self, task_data: TaskCreate) -> TaskResponse:
+        if task_data.assigned_to_user_id:
+            user = self.session.query(User).filter(User.id == task_data.assigned_to_user_id).first()
+            if not user:
+                raise UserNotFound(detail=f"User with id {task_data.assigned_to_user_id} not found")
+            
         stmt = (
             insert(Task)
             .values(task_data.model_dump())
@@ -42,6 +47,11 @@ class SQLiteTaskRepository:
         if not updated_task:
             self.session.rollback()
             raise TaskNotFound(detail=f"Task with id {task_id} not found")
+        
+        if task_data.assigned_to_user_id:
+            user = self.session.query(User).filter(User.id == task_data.assigned_to_user_id).first()
+            if not user:
+                raise UserNotFound(detail=f"User with id {task_data.assigned_to_user_id} not found")
         
         self.session.commit()
         return TaskResponse.model_validate(updated_task)

@@ -196,3 +196,4 @@ def test_delete_user_nao_deve_deletar(client):
 
     #Assert
     assert response.status_code == 404  # Not Found
+    
