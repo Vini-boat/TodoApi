@@ -105,7 +105,8 @@ def test_get_tasks_assigned_to_user_nao_deve_retornar(client, user_id):
     )
 
     # Assert
-    assert response.status_code == 404
+    assert response.status_code == 200
+    assert response.json() == [] 
 
 @pytest.mark.parametrize("task_id", [
     (1), (2)
