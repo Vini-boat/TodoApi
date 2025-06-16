@@ -59,7 +59,7 @@ class SQLiteCommentRepository:
             update(Comment)
             .where(Comment.id == comment_id)
             .values(comment_data.model_dump(exclude_unset=True))
-            .returning(*self.comment_response_colums)
+            .returning(*self.comment_response_columns)
         )
         updated_comment = self.session.execute(stmt).first()
         if not updated_comment:

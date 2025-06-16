@@ -31,7 +31,6 @@ class TaskUpdate(BaseModel):
     description: Optional[str] = None
     completed: bool = False
     assigned_to_user_id: Optional[int] = None
-    created_at: datetime
     due_to: Optional[datetime] = None
     priority: Optional[int] = None
 
@@ -40,7 +39,6 @@ class TaskPatch(BaseModel):
     description: Optional[str] = None
     completed: Optional[bool] = None
     assigned_to_user_id: Optional[int] = None
-    created_at: Optional[datetime] = None
     due_to: Optional[datetime] = None
     priority: Optional[int] = None
 
