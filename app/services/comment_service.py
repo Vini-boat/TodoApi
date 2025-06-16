@@ -28,10 +28,10 @@ class CommentService:
             comment_id: int, 
             user_id: int
         ) -> CommentResponse:
-        user = self.user_repository.get_user_by_id(user_id)
+        original_comment = self.comment_repository.get_comment_by_id(comment_id)
 
-        if user.id != user_id:
-            raise PermissionDenied("You do not have permission to delete this comment.")
+        if original_comment.user_id != user_id:
+            raise PermissionDenied("You do not have permission to update this comment.")
         
         return self.comment_repository.delete_comment(comment_id)
     
@@ -40,9 +40,9 @@ class CommentService:
             comment_data: CommentUpdate, 
             user_id: int
         ) -> CommentResponse:
-        user = self.user_repository.get_user_by_id(user_id)
+        original_comment = self.comment_repository.get_comment_by_id(comment_id)
 
-        if user.id != user_id:
+        if original_comment.user_id != user_id:
             raise PermissionDenied("You do not have permission to update this comment.")
         
         return self.comment_repository.update_comment(comment_id, comment_data)

@@ -4,7 +4,7 @@ from pydantic import EmailStr
 from app.dtos.user import UserCredentials, UserResponse
 from app.dtos.token import TokenData
 from app.services.user_service import UserService
-from app.exceptions.http import  InvalidCredentials
+from app.exceptions.http import  InvalidCredentialsHTTP
 from app.infraestructure.security import verify_password
 
 from datetime import datetime, timedelta, timezone
@@ -25,13 +25,13 @@ async def get_current_user(
         payload = jwt.decode(token, SECRET_KEY, algorithms=[JWT_ALGORITHM])
         username = payload.get("sub")
         if username is None:
-            raise InvalidCredentials
+            raise InvalidCredentialsHTTP
         token_data = TokenData(username=username)
     except InvalidTokenError:
-        raise InvalidCredentials
+        raise InvalidCredentialsHTTP
     user = service.get_user_by_email(token_data.username)
     if user is None:
-        raise InvalidCredentials
+        raise InvalidCredentialsHTTP
     return user
 
 
@@ -51,7 +51,7 @@ def authenticate_user(
 ):
     user = service.get_user_credentials(user_credentials.email)
     if not user:
-        raise InvalidCredentials
+        raise InvalidCredentialsHTTP
     if not verify_password(user_credentials.password, user.password):
-        raise InvalidCredentials
+        raise InvalidCredentialsHTTP
     return user
