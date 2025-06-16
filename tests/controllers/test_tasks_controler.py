@@ -1,8 +1,4 @@
-import json
 import pytest
-from sqlalchemy import true
-
-from app.dtos import task
 
 # Arrumar a atribuição de user que nao existe e arrumar:
     # task nao deve atualizar
