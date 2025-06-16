@@ -181,5 +181,18 @@ def test_delete_user_deve_deletar(client):
     )
 
     #Assert
-    assert response2.status_code == 200 
-    assert response3.status_code == 403
+    assert response2.status_code == 200
+    assert response3.status_code == 403 # Forbidden
+
+def test_delete_user_nao_deve_deletar(client):
+    #Act: delete user that does not exist
+    user_id = 0
+    
+    response = client.delete(
+        f"/api/v1/users/{user_id}",
+        headers={"accept" : "application/json",
+                "Content-Type" : "application/json"},
+    )
+
+    #Assert
+    assert response.status_code == 404  # Not Found
