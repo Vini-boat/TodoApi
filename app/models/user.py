@@ -6,7 +6,7 @@ from . import Base
 # https://github.com/sqlalchemy/sqlalchemy/discussions/9223#discussioncomment-4852967
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
-    from . import Task
+    from . import Task, Comment
 # WHY: isso é necessário para evitar o erro de importação circular
 
 from typing import Optional
@@ -20,5 +20,8 @@ class User(Base):
     password: Mapped[str] = mapped_column(String(100))
     deleted: Mapped[bool] = mapped_column(default=False)
 
-    tasks: Mapped[Optional["Task"]] = relationship(back_populates="assigned_to", cascade="all, delete-orphan")
+    tasks: Mapped[Optional["Task"]] = relationship(back_populates="assigned_to")
+
+    comments: Mapped[list["Comment"]] = relationship(back_populates="user")
+
 

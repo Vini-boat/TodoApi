@@ -19,7 +19,7 @@
   - [X] Criar Exceções do protocolo HTTP
   - [X] Criar os Handlers de Exceções
 - [X] Filtros Avançados
-- [ ] Comentários
+- [/] Comentários
 
 
 A fazer 

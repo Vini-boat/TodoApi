@@ -7,4 +7,5 @@ class Base(DeclarativeBase):
 # https://github.com/sqlalchemy/sqlalchemy/discussions/9223#discussioncomment-4852967
 from .user import User
 from .task import Task
+from .comment import Comment
 # WHY: isso é necessário para evitar o erro de importação circular
