@@ -20,6 +20,10 @@ class SQLiteCommentRepository:
             .values(user_id=user_id, **comment_data.model_dump())
             .returning(*self.comment_response_columns)
         )
+        task = self.session.query(Task).filter(Task.id == comment_data.task_id).first()
+        if not task:
+            raise TaskNotFound(f"Task with id {comment_data.task_id} not found")
+        
         created_comment = self.session.execute(stmt).first()
         self.session.commit()
         return CommentResponse.model_validate(created_comment)
@@ -50,7 +54,7 @@ class SQLiteCommentRepository:
         deleted_comment = self.session.execute(stmt).first()
         if not deleted_comment:
             self.session.rollback()
-            raise TaskNotFound(detail=f"Comment with id {comment_id} not found")
+            raise CommentNotFound(detail=f"Comment with id {comment_id} not found")
         self.session.commit()
         return CommentResponse.model_validate(deleted_comment)
     
