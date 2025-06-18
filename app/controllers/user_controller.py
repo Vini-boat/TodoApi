@@ -3,7 +3,7 @@ from app.services.user_service import UserService
 
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
 from app.infraestructure.auth import get_current_user
-
+from app.exceptions.domain import PermissionDenied
 
 router = APIRouter()
 
@@ -33,13 +33,19 @@ async def get_user_by_id(
 async def update_user(
     user_id: int, 
     user: UserUpdate, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
+    current_user: UserResponse = Depends(get_current_user)
     ):
+    if current_user.id != user_id:
+        raise PermissionDenied("You can only update your own user")
     return service.update_user(user_id, user)
 
 @router.delete("/users/{user_id}", response_model=UserResponse)
 async def delete_user(
     user_id: int, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
+    current_user: UserResponse = Depends(get_current_user)
     ):
+    if current_user.id != user_id:
+        raise PermissionDenied("You can only delete your own user")
     return service.delete_user(user_id)

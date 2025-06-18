@@ -3,7 +3,7 @@ from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from . import Base
 
-from datetime import datetime
+from datetime import datetime, date
 
 # WHY: isso é necessário para evitar o erro de importação circular
 # https://github.com/sqlalchemy/sqlalchemy/discussions/9223#discussioncomment-4852967
@@ -25,7 +25,7 @@ class Task(Base):
 
     created_at: Mapped[datetime] = mapped_column(default=datetime.now())
     completed_at: Mapped[Optional[datetime]] = mapped_column(default=None)
-    due_to: Mapped[Optional[datetime]] = mapped_column(default=None)
+    due_to: Mapped[Optional[date]] = mapped_column(default=None)
     priority: Mapped[Optional[int]] = mapped_column(default=None)
 
     comments: Mapped[list["Comment"]] = relationship(back_populates="task", cascade="all, delete-orphan")

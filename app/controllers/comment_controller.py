@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, Query
 
-from app.models.user import User
+from app.dtos.user import UserResponse
 from app.services.comment_service import CommentService
 from app.dtos.comment import CommentResponse, CommentCreate, CommentUpdate
 from app.controllers.task_controller import router as task_router
@@ -13,7 +13,7 @@ router = APIRouter()
 async def create_comment(
     comment: CommentCreate,
     service: CommentService = Depends(CommentService),
-    user: User = Depends(get_current_user)
+    user: UserResponse = Depends(get_current_user)
     ):
     return service.create_comment(comment, user.id)
 
@@ -35,7 +35,7 @@ async def get_comment_by_id(
 async def delete_comment(
     comment_id: int,
     service: CommentService = Depends(CommentService),
-    user: User = Depends(get_current_user)
+    user: UserResponse = Depends(get_current_user)
     ):
     return service.delete_comment(comment_id, user.id)
 
@@ -44,7 +44,7 @@ async def update_comment(
     comment_id: int,
     comment: CommentUpdate,
     service: CommentService = Depends(CommentService),
-    user: User = Depends(get_current_user)
+    user: UserResponse = Depends(get_current_user)
     ):
     return service.update_comment(comment_id, comment, user.id)
 

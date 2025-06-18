@@ -168,6 +168,7 @@ def test_delete_user_deve_deletar(client):
         },
     )
     user_id = response1.json().get("id")
+    
 
     #Act: delete
     response = client.delete(
