@@ -56,3 +56,35 @@ def test_login_for_access_token_nao_deve_logar(client, username, password):
     )
     # Assert
     assert response.status_code == 401 or response.status_code == 404
+
+def test_logout_deve_deslogar(client):
+    # Arrange: criação de usuário teste
+    response = client.post(
+        "/api/v1/users",
+        headers={"accept": "application/json",
+                 "Content-Type": "application/json"},
+        json={
+            "username": "testuser",
+            "email": "testuser@example.com",
+            "password": "testpassword"
+        }
+    )
+
+    # Act: login do usuário teste
+    response = client.post(
+        "/api/v1/auth/login",
+        headers={"accept": "application/json",
+                 "Content-Type": "application/x-www-form-urlencoded"},
+        data={
+            "username": "testuser@example.com",
+            "password": "testpassword"
+        }
+    )
+
+    # Assert: logout do usuário teste
+    response = client.post(
+        "/api/v1/auth/logout",
+        headers={"accept": "application/json"},
+    )
+    assert response.status_code == 200
+    assert response.json() == "todo: logout"
