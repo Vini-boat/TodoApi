@@ -2,14 +2,22 @@ from fastapi import APIRouter, Depends
 from app.services.user_service import UserService
 
 from app.dtos.user import UserResponse, UserCreate, UserUpdate
-from app.exceptions.http import UserNotFound
+from app.infraestructure.auth import get_current_user
+from app.exceptions.domain import PermissionDenied
 
 router = APIRouter()
+
+
+@router.get("/users/me", response_model=UserResponse)
+async def get_current_user(
+    current_user: UserResponse = Depends(get_current_user)
+    ):
+    return current_user
 
 @router.post("/users", response_model=UserResponse)
 async def create_new_user(
     user: UserCreate, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
     ):
     created_user = service.create_user(user)
     return created_user
@@ -19,28 +27,25 @@ async def get_user_by_id(
     user_id: int, 
     service: UserService = Depends(UserService)
     ):
-    user = service.get_user_by_id(user_id)
-    if not user:
-        raise UserNotFound
-    return user
+    return service.get_user_by_id(user_id)
 
 @router.put("/users/{user_id}", response_model=UserResponse)
 async def update_user(
     user_id: int, 
     user: UserUpdate, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
+    current_user: UserResponse = Depends(get_current_user)
     ):
-    updated_user = service.update_user(user_id, user)
-    if not updated_user:
-        raise UserNotFound
-    return updated_user
+    if current_user.id != user_id:
+        raise PermissionDenied("You can only update your own user")
+    return service.update_user(user_id, user)
 
 @router.delete("/users/{user_id}", response_model=UserResponse)
 async def delete_user(
     user_id: int, 
-    service: UserService = Depends(UserService)
+    service: UserService = Depends(UserService),
+    current_user: UserResponse = Depends(get_current_user)
     ):
-    deleted_user = service.delete_user(user_id)
-    if not deleted_user:
-        raise UserNotFound
-    return deleted_user
+    if current_user.id != user_id:
+        raise PermissionDenied("You can only delete your own user")
+    return service.delete_user(user_id)
