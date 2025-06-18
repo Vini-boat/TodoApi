@@ -1,10 +1,5 @@
 import pytest
 
-# Arrumar a atribuição de user que nao existe e arrumar:
-    # task nao deve atualizar
-    # get_task by id nao deve retornar
-    # get tasks assigned to user
-
 @pytest.mark.parametrize("title, description, assigned_to_user_id", [
     ("Task 1", "Description for task 1", None),
     ("Task 2", "Description for task 2", None),
