@@ -13,7 +13,7 @@ class CommentService:
         self.user_repository = user_repository
 
     def create_comment(self, 
-            comment_data: CommentCreate, 
+            comment_data: CommentCreate,
             user_id: int
         ) -> CommentResponse:
         return self.comment_repository.create_comment(user_id, comment_data)
