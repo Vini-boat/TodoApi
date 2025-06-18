@@ -96,11 +96,26 @@ def test_update_user_deve_atualizar(client, new_username,new_email,new_password)
     )
     user_id = response.json().get("id")
 
+            # Arrange: login do usuário teste
+    response = client.post(
+        "/api/v1/auth/login",
+        headers={"accept": "application/json",
+                 "Content-Type": "application/x-www-form-urlencoded"},
+        data={
+            "username": "teste@gmail.com",
+            "password": "0000000"
+        }
+    )
+    access_token = response.json().get("access_token")
+    assert access_token is not None
+
     #Act: atualização do usuário
     response = client.put(
         f"/api/v1/users/{user_id}",
         headers={"accept" : "application/json",
-                "Content-Type" : "application/json"},
+                "Content-Type" : "application/json",
+                "Authorization": f"Bearer {access_token}"
+                },
 
         json={
             "username": new_username,
@@ -131,11 +146,26 @@ def test_update_user_nao_deve_atualizar(client,new_email):
     )
     user_id = response.json().get("id")
 
+        # Arrange: login do usuário teste
+    response = client.post(
+        "/api/v1/auth/login",
+        headers={"accept": "application/json",
+                 "Content-Type": "application/x-www-form-urlencoded"},
+        data={
+            "username": "teste@gmail.com",
+            "password": "0000000"
+        }
+    )
+    access_token = response.json().get("access_token")
+    assert access_token is not None
+
     #Act: atualização do usuário
     response = client.put(
         f"/api/v1/users/{user_id}",
         headers={"accept" : "application/json",
-                "Content-Type" : "application/json"},
+                "Content-Type" : "application/json",
+                "Authorization": f"Bearer {access_token}"
+                },
 
         json={
             "email": new_email,
@@ -169,19 +199,35 @@ def test_delete_user_deve_deletar(client):
     )
     user_id = response1.json().get("id")
     
+        # Arrange: login do usuário teste
+    response = client.post(
+        "/api/v1/auth/login",
+        headers={"accept": "application/json",
+                 "Content-Type": "application/x-www-form-urlencoded"},
+        data={
+            "username": "teste@gmail.com",
+            "password": "0000000"
+        }
+    )
+    access_token = response.json().get("access_token")
+    assert access_token is not None
 
     #Act: delete
-    response = client.delete(
+    client.delete(
         f"/api/v1/users/{user_id}",
         headers={"accept" : "application/json",
-                "Content-Type" : "application/json"},
+                "Content-Type" : "application/json",
+                "Authorization": f"Bearer {access_token}"
+                },
     )
 
     #Act: get user after delete
     response3 = client.get(
         f"/api/v1/users/{user_id}",
         headers={"accept" : "application/json",
-                "Content-Type" : "application/json"},
+                "Content-Type" : "application/json",
+                "Authorization": f"Bearer {access_token}"
+                },
     )
 
     #Assert
@@ -199,5 +245,4 @@ def test_delete_user_nao_deve_deletar(client):
     )
 
     #Assert
-    assert response.status_code == 404  # Not Found
-    
+    assert response.status_code == 401  # Unauthorized
