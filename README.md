@@ -19,17 +19,7 @@ A self-hosted collaborative task board, exposed as a REST API — a shared works
 
 ## Architecture
 
-```mermaid
-graph LR
-    Client[HTTP Client] --> Controller
-    Controller --> Service
-    Service --> Repository
-    Repository --> Model[SQLAlchemy Model]
-    Model --> DB[(SQLite)]
-    Service -. raises .-> Domain[Domain Exception]
-    Domain -. translated by .-> Handlers[Exception Handlers]
-    Handlers -. HTTP error .-> Client
-```
+![Architecture](assets/architecture.svg)
 
 | Layer | Directory | Responsibility |
 | --- | --- | --- |
