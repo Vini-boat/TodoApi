@@ -10,10 +10,10 @@ A self-hosted collaborative task board, exposed as a REST API — a shared works
 
 ## Highlights
 
-- **Layered architecture with dependency injection.** Every request flows Controller → Service → Repository → Model, and each layer receives the one below it through FastAPI's `Depends()` constructor injection — so swapping the SQLite repository for another backend touches one file per entity.
+- **Layered architecture with dependency injection.** Every request flows Controller → Service → Repository → Model, and each layer receives the one below it through FastAPI's `Depends()` constructor injection, so swapping the SQLite repository for another backend touches one file per entity.
 - **Framework-agnostic error handling.** Services and repositories raise plain domain exceptions (`UserNotFound`, `PermissionDenied`, …); a handler registry translates each into a typed HTTP error at the application edge. No business-logic module imports `fastapi.HTTPException`.
 - **Real authentication.** OAuth2 password flow, JWT access tokens signed with HS256 (PyJWT), passwords hashed with bcrypt through passlib.
-- **Tested through the HTTP layer.** 31 pytest functions — 19 of them parametrized across several cases each — every one running against a freshly created in-memory SQLite database, pairing a success path with its failure path per endpoint.
+- **Tested through the HTTP layer.** 31 pytest functions, 19 of them parametrized across several cases each, every one running against a freshly created in-memory SQLite database, pairing a success path with its failure path per endpoint.
 - **CI on every push.** GitHub Actions runs the full suite with coverage on every push and pull request to `main`.
 - **Containerized.** Dockerfile plus Compose, with the SQLite file persisted on a host volume so data survives rebuilds.
 
@@ -81,17 +81,15 @@ erDiagram
     }
 ```
 
-Deleting a task cascades to its comments (`cascade="all, delete-orphan"`). Deleting a user is a *soft* delete — the row stays and `deleted` flips to `true`, so tasks and comments keep their history; assignment on tasks is `ON DELETE SET NULL` for the hard-delete case.
+Deleting a task cascades to its comments (`cascade="all, delete-orphan"`). Deleting a user is a *soft* delete, the row stays and `deleted` flips to `true`, so tasks and comments keep their history; assignment on tasks is `ON DELETE SET NULL` for the hard-delete case.
 
 ## Authentication and access model
 
 This is a **shared board**, and the permission model follows from that:
 
-- **Tasks are a common workspace.** Any client of the instance can list, create, edit and delete tasks — that is the point of a shared board, and tasks carry an `assigned_to_user_id` rather than an owner.
+- **Tasks are a common workspace.** Any client of the instance can list, create, edit and delete tasks, that is the point of a shared board, and tasks carry an `assigned_to_user_id` rather than an owner.
 - **Comments carry authorship.** Posting requires a token so the comment can be attributed; editing and deleting are restricted to the author, enforced in `CommentService` via `PermissionDenied`.
 - **Accounts are self-owned.** A user may only update or delete their own account; attempting either on someone else's returns 403.
-
-The instance is meant to run behind whatever perimeter you deploy it in (a private network, a reverse proxy, your own machine) — authentication here establishes *who* is acting, not *which* tasks they may see.
 
 **Token flow**
 
@@ -152,8 +150,8 @@ All routes are served under `/api/v1`. Interactive docs are generated at [`/docs
 | `GET` | `/comments?task_id=` | — | Comments of a task |
 | `GET` | `/comments/{comment_id}` | — | Fetch one comment |
 | `GET` | `/tasks/{task_id}/comments` | — | Nested listing of a task's comments |
-| `PUT` | `/comments/{comment_id}` | ✅ | Update — author only |
-| `DELETE` | `/comments/{comment_id}` | ✅ | Delete — author only |
+| `PUT` | `/comments/{comment_id}` | ✅ | Update, author only |
+| `DELETE` | `/comments/{comment_id}` | ✅ | Delete, author only |
 
 ## Getting started
 
@@ -180,7 +178,7 @@ cp .env.example .env
 uvicorn app.main:app --reload --port 8080
 ```
 
-Tables are created on startup through the FastAPI lifespan hook — there is no migration step to run.
+Tables are created on startup through the FastAPI lifespan hook, there is no migration step to run.
 
 ### Configuration
 
@@ -215,7 +213,7 @@ The CI workflow (`.github/workflows/pytest.yml`) runs this exact command on Pyth
 - OAuth2 scopes to introduce roles (admin / user / guest) on top of the current identity layer
 - A real logout: token denylist or refresh-token rotation
 - Alembic migrations, replacing create-on-startup
-- Unit tests at the service and repository level — `tests/services/` and `tests/repository/` are scaffolded but still empty; coverage today is end-to-end only
+- Unit tests at the service and repository level, `tests/services/` and `tests/repository/` are scaffolded but still empty; coverage today is end-to-end only
 
 ## License
 
